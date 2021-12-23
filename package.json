@@ -4,12 +4,13 @@
   "description": "",
   "license": "",
   "scripts": {
-    "build": "npm run build:css && remix build",
+    "build": "concurrently \"yarn db:sync\" \"npm run build:css\" \"remix build\"",
     "build:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css",
-    "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev": "concurrently \"node -r dotenv/config\" \"npm run dev:css\" \"remix dev\"",
     "dev:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --watch",
     "postinstall": "remix setup node",
     "start": "remix-serve build",
+    "db:sync": "npx prisma db push",
     "db:seed": "node ./prisma/seed.js"
   },
   "dependencies": {
